@@ -3,9 +3,9 @@
 <head>
   <title>Display Data</title>
   <!-- Firebase App (the core Firebase SDK) -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js"></script>
   <!-- Firebase Database -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"></script>
   <style>
     table {
       width: 100%;
@@ -20,17 +20,19 @@
       background-color: #f4f4f4;
     }
   </style>
-  <script>
+  <script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
     // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBDOVzht7CqcIIhnKrZ__WosOcn2pifF44",
-      authDomain: "rba-home-plans.firebaseapp.com",
-      databaseURL: "https://rba-home-plans-default-rtdb.firebaseio.com",
-      projectId: "rba-home-plans",
-      storageBucket: "rba-home-plans.appspot.com",
-      messagingSenderId: "313680347378",
-      appId: "1:313680347378:web:0c94d490246f6a283a106b"
-    };
+    authDomain: "rba-home-plans.firebaseapp.com",
+    databaseURL: "https://rba-home-plans-default-rtdb.firebaseio.com",
+    projectId: "rba-home-plans",
+    storageBucket: "rba-home-plans.appspot.com",
+    messagingSenderId: "313680347378",
+    appId: "1:313680347378:web:0c94d490246f6a283a106b"
+  };
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
