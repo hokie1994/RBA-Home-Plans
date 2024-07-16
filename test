@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Display Data</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBDOVzht7CqcIIhnKrZ__WosOcn2pifF44",
+      authDomain: "rba-home-plans.firebaseapp.com",
+      databaseURL: "https://rba-home-plans-default-rtdb.firebaseio.com",
+      projectId: "rba-home-plans",
+      storageBucket: "rba-home-plans.appspot.com",
+      messagingSenderId: "313680347378",
+      appId: "1:313680347378:web:0c94d490246f6a283a106b"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Function to fetch data from Firebase
+    function fetchData() {
+      console.log('Fetching data from Firebase...');
+      const dbRef = firebase.database().ref('entries');
+      dbRef.once('value')
+        .then((snapshot) => {
+          const data = snapshot.val();
+          console.log('Data received:', data);
+
+          if (data) {
+            let output = '';
+            for (const key in data) {
+              output += `<p>${JSON.stringify(data[key])}</p>`;
+            }
+            document.getElementById('dataContainer').innerHTML = output;
+          } else {
+            document.getElementById('dataContainer').innerHTML = 'No data available';
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+          document.getElementById('dataContainer').innerHTML = 'Error fetching data';
+        });
+    }
+
+    window.onload = fetchData;
+  </script>
+</head>
+<body>
+  <div id="dataContainer">Loading data...</div>
+</body>
+</html>
