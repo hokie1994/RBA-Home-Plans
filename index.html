@@ -1,73 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Display Data</title>
-  <!-- Firebase App (the core Firebase SDK) -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js"></script>
-  <!-- Firebase Database -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js"></script>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 8px 12px;
-      border: 1px solid #ccc;
-      text-align: left;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-  </style>
-  <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "rba-home-plans.firebaseapp.com",
-      databaseURL: "https://rba-home-plans-default-rtdb.firebaseio.com",
-      projectId: "rba-home-plans",
-      storageBucket: "rba-home-plans.appspot.com",
-      messagingSenderId: "313680347378",
-      appId: "1:313680347378:web:0c94d490246f6a283a106b"
-    };
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <!-- Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <script>
+        // Firebase configuration
+        var firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    var database = firebase.database();
+        // Function to fetch and display product data
+        function displayProductData() {
+            var productId = window.location.hash.substring(1); // Get product ID from URL hash
+            var productRef = firebase.database().ref('products/' + productId);
 
-    // Function to fetch data from Firebase
-    function fetchData() {
-      console.log('Fetching data from Firebase...');
-      var dbRef = database.ref('entries');
-      dbRef.once('value')
-        .then(function(snapshot) {
-          var data = snapshot.val();
-          console.log('Data received:', data);
+            productRef.once('value', function(snapshot) {
+                var productData = snapshot.val();
+                if (productData) {
+                    // Update iframe content with product data
+                    var iframe = document.getElementById('productIframe');
+                    if (iframe) {
+                        iframe.contentDocument.body.innerHTML = `
+                            <h2>${productData.name}</h2>
+                            <p>${productData.description}</p>
+                            <p>Price: $${productData.price}</p>
+                            <!-- Add more fields as needed -->
+                        `;
+                    }
+                } else {
+                    console.log('Product not found');
+                }
+            });
+        }
 
-          if (data) {
-            var output = '<table><thead><tr><th>Bedrooms</th><th>Bathrooms</th><th>Square Feet</th><th>Floors</th><th>Garage</th><th>Master</th><th>Floor 1</th><th>Floor 2</th><th>Floor 3</th><th>Floor 4</th><th>Width</th><th>Depth</th><th>Floor Plan 1</th><th>Floor Plan 2</th></tr></thead><tbody>';
-
-            for (var key in data) {
-              output += '<tr><td>' + data[key].field1 + '</td><td>' + data[key].field2 + '</td><td>' + data[key].field3 + '</td><td>' + data[key].field4 + '</td><td>' + data[key].field5 + '</td><td>' + data[key].field6 + '</td><td>' + data[key].field7 + '</td><td>' + data[key].field8 + '</td><td>' + data[key].field9 + '</td><td>' + data[key].field10 + '</td><td>' + data[key].field11 + '</td><td>' + data[key].field12 + '</td><td>' + data[key].field13 + '</td><td>' + data[key].field14 + '</td></tr>';
-            }
-
-            output += '</tbody></table>';
-            document.getElementById('dataContainer').innerHTML = output;
-          } else {
-            document.getElementById('dataContainer').innerHTML = 'No data available';
-          }
-        })
-        .catch(function(error) {
-          console.error('Error fetching data:', error);
-          document.getElementById('dataContainer').innerHTML = 'Error fetching data';
-        });
-    }
-
-    window.onload = fetchData;
-  </script>
+        window.onload = displayProductData; // Call function when page loads
+    </script>
 </head>
 <body>
-  <div id="dataContainer">Loading data...</div>
+    <!-- Your existing product page content here -->
+    <iframe id="productIframe" srcdoc="<p>Loading...</p>" width="100%" height="500px"></iframe>
 </body>
 </html>
