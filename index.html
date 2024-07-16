@@ -20,83 +20,45 @@
       background-color: #f4f4f4;
     }
   </style>
-  <script type="module">
-
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+  <script>
     // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBDOVzht7CqcIIhnKrZ__WosOcn2pifF44",
-    authDomain: "rba-home-plans.firebaseapp.com",
-    databaseURL: "https://rba-home-plans-default-rtdb.firebaseio.com",
-    projectId: "rba-home-plans",
-    storageBucket: "rba-home-plans.appspot.com",
-    messagingSenderId: "313680347378",
-    appId: "1:313680347378:web:0c94d490246f6a283a106b"
-  };
+    var firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "rba-home-plans.firebaseapp.com",
+      databaseURL: "https://rba-home-plans-default-rtdb.firebaseio.com",
+      projectId: "rba-home-plans",
+      storageBucket: "rba-home-plans.appspot.com",
+      messagingSenderId: "313680347378",
+      appId: "1:313680347378:web:0c94d490246f6a283a106b"
+    };
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+    var database = firebase.database();
 
     // Function to fetch data from Firebase
     function fetchData() {
       console.log('Fetching data from Firebase...');
-      const dbRef = database.ref('entries');
+      var dbRef = database.ref('entries');
       dbRef.once('value')
-        .then((snapshot) => {
-          const data = snapshot.val();
+        .then(function(snapshot) {
+          var data = snapshot.val();
           console.log('Data received:', data);
 
           if (data) {
-            let output = `
-              <table>
-                <thead>
-                  <tr>
-                    <th>Bedrooms</th>
-                    <th>Bathrooms</th>
-                    <th>Square Feet</th>
-                    <th>Floors</th>
-                    <th>Garage</th>
-                    <th>Master</th>
-                    <th>Floor 1</th>
-                    <th>Floor 2</th>
-                    <th>Floor 3</th>
-                    <th>Floor 4</th>
-                    <th>Width</th>
-                    <th>Depth</th>
-                    <th>Floor Plan 1</th>
-                    <th>Floor Plan 2</th>
-                  </tr>
-                </thead>
-                <tbody>`;
+            var output = '<table><thead><tr><th>Bedrooms</th><th>Bathrooms</th><th>Square Feet</th><th>Floors</th><th>Garage</th><th>Master</th><th>Floor 1</th><th>Floor 2</th><th>Floor 3</th><th>Floor 4</th><th>Width</th><th>Depth</th><th>Floor Plan 1</th><th>Floor Plan 2</th></tr></thead><tbody>';
 
-            for (const key in data) {
-              output += `
-                <tr>
-                  <td>${data[key].field1}</td>
-                  <td>${data[key].field2}</td>
-                  <td>${data[key].field3}</td>
-                  <td>${data[key].field4}</td>
-                  <td>${data[key].field5}</td>
-                  <td>${data[key].field6}</td>
-                  <td>${data[key].field7}</td>
-                  <td>${data[key].field8}</td>
-                  <td>${data[key].field9}</td>
-                  <td>${data[key].field10}</td>
-                  <td>${data[key].field11}</td>
-                  <td>${data[key].field12}</td>
-                  <td>${data[key].field13}</td>
-                  <td>${data[key].field14}</td>
-                </tr>`;
+            for (var key in data) {
+              output += '<tr><td>' + data[key].field1 + '</td><td>' + data[key].field2 + '</td><td>' + data[key].field3 + '</td><td>' + data[key].field4 + '</td><td>' + data[key].field5 + '</td><td>' + data[key].field6 + '</td><td>' + data[key].field7 + '</td><td>' + data[key].field8 + '</td><td>' + data[key].field9 + '</td><td>' + data[key].field10 + '</td><td>' + data[key].field11 + '</td><td>' + data[key].field12 + '</td><td>' + data[key].field13 + '</td><td>' + data[key].field14 + '</td></tr>';
             }
 
-            output += `</tbody></table>`;
+            output += '</tbody></table>';
             document.getElementById('dataContainer').innerHTML = output;
           } else {
             document.getElementById('dataContainer').innerHTML = 'No data available';
           }
         })
-        .catch((error) => {
+        .catch(function(error) {
           console.error('Error fetching data:', error);
           document.getElementById('dataContainer').innerHTML = 'Error fetching data';
         });
