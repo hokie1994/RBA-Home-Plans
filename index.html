@@ -25,7 +25,7 @@
     // Function to fetch data from Firebase
     function fetchData() {
       console.log('Fetching data from Firebase...');
-      const dbRef = firebase.database().ref('entries');
+      const dbRef = database.ref('entries');
       dbRef.once('value')
         .then((snapshot) => {
           const data = snapshot.val();
